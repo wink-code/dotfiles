@@ -1,0 +1,28 @@
+{
+  "plugins": {
+    "fzf-lua": {
+      "rev": "69b0d5d045cc039e68ba4c82190ce471464226b6",
+      "src": "https://github.com/ibhagwan/fzf-lua"
+    },
+    "gitsigns.nvim": {
+      "rev": "8d82c240f190fc33723d48c308ccc1ed8baad69d",
+      "src": "https://github.com/lewis6991/gitsigns.nvim"
+    },
+    "mini.completion": {
+      "rev": "ffbdb06d2fa6a3fcef3891108bb38e33223b27a7",
+      "src": "https://github.com/nvim-mini/mini.completion"
+    },
+    "nvim-lspconfig": {
+      "rev": "4b7fbaa239c5db6b36f424a4521ca9f1a401be33",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "quicker.nvim": {
+      "rev": "063cc44da1eef8681bbd653b29d3bc961780886a",
+      "src": "https://github.com/stevearc/quicker.nvim"
+    },
+    "smear-cursor.nvim": {
+      "rev": "9e9378d6ee34bb3782e0e8c63d9ec8ca618b479b",
+      "src": "https://github.com/sphamba/smear-cursor.nvim"
+    }
+  }
+}

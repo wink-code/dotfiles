@@ -1,0 +1,23 @@
+#!/bin/bash
+
+exec 9>/tmp/screenshot.lock
+flock -n 9 || { notify-send "Screenshot" "Another screenshot is already in progress"; exit 1; }
+
+PIC_DIR="/home/johnwink/Pictures/screenshot"
+mkdir -p "$PIC_DIR"
+
+TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+FILENAME="$PIC_DIR/screenshot_$TIMESTAMP.png"
+
+if [ "$1" = "area" ]; then
+    grim -g "$(slurp)" "$FILENAME"
+elif [ "$1" = "full" ]; then
+    grim "$FILENAME"
+else
+    grim "$FILENAME"
+fi
+
+if [ -f "$FILENAME" ]; then
+    wl-copy < "$FILENAME"
+    notify-send "Screenshot saved" "$FILENAME" -i "$FILENAME"
+fi

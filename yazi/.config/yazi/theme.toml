@@ -1,0 +1,17 @@
+[manager]
+preview = { fg = "#cdd6f4", bg = "#1e1e2e" }
+
+[status]
+separator_open = ""
+separator_close = ""
+separator_style = { fg = "#45475a", bg = "#1e1e2e" }
+
+[input]
+border = { fg = "#89b4fa" }
+
+[select]
+border = { fg = "#a6e3a0" }
+
+[tab]
+active = { fg = "#1e1e2e", bg = "#89b4fa" }
+inactive = { fg = "#cdd6f4", bg = "#313244" }

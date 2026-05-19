@@ -1,0 +1,13 @@
+#[font]
+#family = JetBrainsMono Nerd Font
+#size = 12.0
+
+[colors]
+primary:
+    backgroud = "#1e1e2e"
+    foreground = "#cdd6f4"
+cursor:
+    text = "#000000"
+    cursor = "#cdd6f4"
+
+live_config_reload = true

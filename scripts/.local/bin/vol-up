@@ -1,0 +1,5 @@
+#!/bin/bash
+wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
+wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+vol=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk '{gsub(/%/,""); printf "%.0f", $2*100}')
+dunstify -r 99 -u low "🔊 Volume: $vol%"

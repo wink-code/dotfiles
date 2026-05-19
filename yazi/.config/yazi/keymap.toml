@@ -1,0 +1,5 @@
+[manager]
+prepend_keymap = [
+    { on = "<C-h>", run = "toggle_hidden" },
+    { on = "<C-v>", run = "toggle_visual" },
+]
