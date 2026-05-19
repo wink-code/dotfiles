@@ -10,12 +10,9 @@ fi
 
 echo "==> Backing up existing configs that would conflict..."
 for pkg in hyprland terminal shell nvim yazi tools fcitx5 gtk opencode scripts wallpapers; do
-    if [ -f "$pkg/.stow-local-ignore" ]; then
-        STOW_IGNORE="$pkg/.stow-local-ignore"
-    fi
-    stow --no -v "$pkg" 2>&1 | grep "existing target" | while IFS= read -r line; do
-        target=$(echo "$line" | sed 's/.*existing target[^:]*: //')
-        if [ -n "$target" ] && [ ! -L "$HOME/$target" ]; then
+    find "$pkg" -type f | while IFS= read -r file; do
+        target="${file#$pkg/}"
+        if [ -e "$HOME/$target" ] && [ ! -L "$HOME/$target" ]; then
             mkdir -p "$(dirname "$HOME/$target")"
             mv "$HOME/$target" "$HOME/$target.bak.$(date +%Y%m%d)"
             echo "  backed up: $target"
