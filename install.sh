@@ -13,9 +13,10 @@ for pkg in hyprland terminal shell nvim yazi tools fcitx5 gtk opencode scripts w
     if [ -f "$pkg/.stow-local-ignore" ]; then
         STOW_IGNORE="$pkg/.stow-local-ignore"
     fi
-    stow --no -v "$pkg" 2>&1 | grep "existing target" | while read -r line; do
-        target=$(echo "$line" | grep -oP '(?<=target )\S+')
+    stow --no -v "$pkg" 2>&1 | grep "existing target" | while IFS= read -r line; do
+        target=$(echo "$line" | sed 's/.*existing target[^:]*: //')
         if [ -n "$target" ] && [ ! -L "$HOME/$target" ]; then
+            mkdir -p "$(dirname "$HOME/$target")"
             mv "$HOME/$target" "$HOME/$target.bak.$(date +%Y%m%d)"
             echo "  backed up: $target"
         fi
