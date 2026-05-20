@@ -114,7 +114,7 @@ stow -R hyprland
 
 ## Notes
 
-- **Neovim**: Plugins are managed by [lazy.nvim](https://github.com/folke/lazy.nvim). First launch auto-clones it. `lazy-lock.json` tracks exact plugin versions.
+- **Neovim**: Plugins are managed by [lazy.nvim](https://github.com/folke/lazy.nvim). First launch auto-clones it. `lazy-lock.json` tracks exact plugin versions. See [nvim shortcuts](documents/nvim-shortcuts.md) for keybindings.
 - **Wallpapers**: Stored in `~/imgs/desktop/`. The `wallpaper-cycle.sh` / `wallpaper-restore.sh` scripts reference this path.
 - **Hyprland session**: `.profile` auto-starts Hyprland via `uwsm`. Remove the `exec uwsm` line if you use a display manager.
 - **Fcitx5**: Chinese input method. Set up with `fcitx5-configtool` after install.
