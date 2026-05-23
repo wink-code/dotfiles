@@ -64,6 +64,11 @@ return {
     end,
   },
   {
+    'folke/which-key.nvim',
+    event = 'VeryLazy',
+    opts = {},
+  },
+  {
     'sphamba/smear-cursor.nvim',
     lazy = false,
     config = function()
@@ -85,9 +90,10 @@ return {
         smear_insert_mode = false,
 
         -- 【性能优化】调整运动参数让拖尾更丝滑
-        stiffness = 0.7,                    -- 头部移动速度 (默认0.6)
-        trailing_stiffness = 0.35,          -- 尾部跟随速度 (默认0.45)
-        damping = 0.8,                      -- 阻尼系数 (默认0.85)
+        stiffness = 0.85,                    -- 头部移动速度 (默认0.6)
+        trailing_stiffness = 0.6,           -- 尾部跟随速度 (默认0.45)
+        damping = 0.9,                      -- 阻尼系数 (默认0.85)
+        distance_stop_animating = 0.5,      -- 提前终止动画，避免长跳转拖尾
         trailing_exponent = 2.5,            -- 尾部分布指数 (默认3.0)
 
         -- 插入模式专用优化
@@ -131,6 +137,8 @@ return {
           ignore = true,
         },
       })
+      vim.api.nvim_set_hl(0, 'NvimTreeNormal', { bg = 'none' })
+      vim.api.nvim_set_hl(0, 'NvimTreeEndOfBuffer', { bg = 'none' })
     end,
   },
 
@@ -169,6 +177,15 @@ return {
         vim.keymap.set('n', '[b', ':BufferLineCyclePrev<CR>', { desc = 'Prev buffer' })
         vim.keymap.set('n', '<leader>bp', ':BufferLinePick<CR>', { desc = 'Pick buffer' })
         vim.keymap.set('n', '<leader>bq', ':bdelete<CR>', { desc = 'Close buffer' })
+        vim.keymap.set('n', '<A-1>', '<Cmd>BufferLineGoToBuffer 1<CR>', { desc = 'Buffer 1' })
+        vim.keymap.set('n', '<A-2>', '<Cmd>BufferLineGoToBuffer 2<CR>', { desc = 'Buffer 2' })
+        vim.keymap.set('n', '<A-3>', '<Cmd>BufferLineGoToBuffer 3<CR>', { desc = 'Buffer 3' })
+        vim.keymap.set('n', '<A-4>', '<Cmd>BufferLineGoToBuffer 4<CR>', { desc = 'Buffer 4' })
+        vim.keymap.set('n', '<A-5>', '<Cmd>BufferLineGoToBuffer 5<CR>', { desc = 'Buffer 5' })
+        vim.keymap.set('n', '<A-6>', '<Cmd>BufferLineGoToBuffer 6<CR>', { desc = 'Buffer 6' })
+        vim.keymap.set('n', '<A-7>', '<Cmd>BufferLineGoToBuffer 7<CR>', { desc = 'Buffer 7' })
+        vim.keymap.set('n', '<A-8>', '<Cmd>BufferLineGoToBuffer 8<CR>', { desc = 'Buffer 8' })
+        vim.keymap.set('n', '<A-9>', '<Cmd>BufferLineGoToBuffer 9<CR>', { desc = 'Buffer 9' })
     end,
   },
   {
@@ -190,7 +207,16 @@ return {
   {
     'folke/flash.nvim',
     event = 'VeryLazy',
-    opts = {},
+    opts = {
+      modes = {
+        char = {
+          enabled = true,
+          jump_labels = true,
+          keys = { 'f', 'F', 't', 'T', ';', ',' },
+          label = { exclude = 'hjkliardc' },
+        },
+      },
+    },
     keys = {
       { 's', mode = { 'n', 'x', 'o' }, function() require('flash').jump() end, desc = 'Flash' },
       { 'S', mode = { 'n', 'x', 'o' }, function() require('flash').treesitter() end, desc = 'Flash Treesitter' },

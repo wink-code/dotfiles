@@ -129,11 +129,11 @@ vim.api.nvim_create_autocmd("VimEnter", {
       silent = true,
       desc = "Toggle file tree",
     })
-
     -- fzf-lua
     vim.keymap.set('n', '<leader>ff', require('fzf-lua').files,           { desc = 'Find files' })
     vim.keymap.set('n', '<leader>fg', require('fzf-lua').live_grep,       { desc = 'Grep project' })
     vim.keymap.set('n', '<leader>fb', require('fzf-lua').buffers,         { desc = 'Find buffers' })
+    vim.keymap.set('n', '<leader><leader>', require('fzf-lua').buffers,   { desc = 'Switch buffer' })
     vim.keymap.set('n', '<leader>fh', require('fzf-lua').helptags,        { desc = 'Find help' })
     vim.keymap.set('n', '<leader>fc', require('fzf-lua').command_history, { desc = 'Command history' })
 
@@ -163,16 +163,6 @@ vim.api.nvim_create_autocmd("VimEnter", {
 vim.opt.signcolumn = 'yes'
 vim.opt.updatetime = 200
 vim.opt.showcmd = true
-
--- Show leader key hints in cmdline
-vim.api.nvim_create_autocmd('CmdlineEnter', {
-  pattern = ':',
-  callback = function()
-    if vim.fn.getcmdline():match('^%s*$') == '' then
-      vim.defer_fn(function() vim.cmd('echo "SPC: rn=rename, ca=code_action, dl=line_diag"') end, 1)
-    end
-  end,
-})
 
 --1. basic config
 --===========================
