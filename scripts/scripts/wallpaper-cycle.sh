@@ -5,13 +5,18 @@ WALLPAPER_DIR="/home/johnwink/imgs/desktop"
 STATE_FILE="/home/johnwink/.config/hypr/wallpaper-index"
 
 # Get list of wallpapers (sorted)
-mapfile -t WALLPAPERS < <(find "$WALLPAPER_DIR" -maxdepth 1 -type f \( -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" \) | sort)
+mapfile -t WALLPAPERS < <(find -L "$WALLPAPER_DIR" -maxdepth 1 -type f \( -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg" \) | sort)
 
 # Read current index
 if [ -f "$STATE_FILE" ]; then
   INDEX=$(cat "$STATE_FILE")
 else
   INDEX=0
+fi
+
+# Safety check
+if [ ${#WALLPAPERS[@]} -eq 0 ]; then
+  exit 1
 fi
 
 # Advance to next
