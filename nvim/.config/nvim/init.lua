@@ -154,6 +154,22 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.keymap.set('n', '<leader>wv', '<C-w>v', { desc = 'Split vertical' })
     vim.keymap.set('n', '<leader>ws', '<C-w>s', { desc = 'Split horizontal' })
     vim.keymap.set('n', '<leader>wc', '<C-w>c', { desc = 'Close window' })
+
+    -- nvim-dap debugging
+    vim.keymap.set('n', '<leader>db', function() require('dap').toggle_breakpoint() end, { desc = 'Toggle breakpoint' })
+    vim.keymap.set('n', '<leader>dB', function() require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, { desc = 'Conditional breakpoint' })
+    vim.keymap.set('n', '<leader>dc', function() require('dap').continue() end, { desc = 'Continue' })
+    vim.keymap.set('n', '<leader>di', function() require('dap').step_into() end, { desc = 'Step into' })
+    vim.keymap.set('n', '<leader>do', function() require('dap').step_out() end, { desc = 'Step out' })
+    vim.keymap.set('n', '<leader>ds', function() require('dap').step_over() end, { desc = 'Step over' })
+    vim.keymap.set('n', '<leader>dt', function() require('dapui').toggle() end, { desc = 'Toggle DAP UI' })
+    vim.keymap.set('n', '<leader>dr', function() require('dap').repl.open() end, { desc = 'Open REPL' })
+
+    vim.keymap.set('n', '<F5>', function() require('dap').continue() end, { desc = 'Continue' })
+    vim.keymap.set('n', '<F10>', function() require('dap').step_over() end, { desc = 'Step over' })
+    vim.keymap.set('n', '<F11>', function() require('dap').step_into() end, { desc = 'Step into' })
+    vim.keymap.set('n', '<S-F11>', function() require('dap').step_out() end, { desc = 'Step out' })
+    vim.keymap.set('n', '<F9>', function() require('dap').toggle_breakpoint() end, { desc = 'Toggle breakpoint' })
   end,
 })
 

@@ -1,23 +1,27 @@
 #!/bin/bash
 
 exec 9>/tmp/screenshot.lock
-flock -n 9 || { notify-send "Screenshot" "Another screenshot is already in progress"; exit 1; }
+flock -n 9 || { notify-send -t 3000 "Screenshot" "Another screenshot is already in progress"; exit 1; }
 
-PIC_DIR="/home/johnwink/Pictures/screenshot"
+on_exit() {
+    rm -f /tmp/screenshot.lock
+}
+trap on_exit EXIT
+
+PIC_DIR="$HOME/Pictures/screenshot"
 mkdir -p "$PIC_DIR"
 
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 FILENAME="$PIC_DIR/screenshot_$TIMESTAMP.png"
 
 if [ "$1" = "area" ]; then
-    grim -g "$(slurp)" "$FILENAME"
-elif [ "$1" = "full" ]; then
-    grim "$FILENAME"
+    GEOM=$(slurp 2>/dev/null) || { notify-send -t 2000 "Screenshot" "Cancelled"; exit 0; }
+    grim -g "$GEOM" "$FILENAME"
 else
     grim "$FILENAME"
 fi
 
 if [ -f "$FILENAME" ]; then
     wl-copy < "$FILENAME"
-    notify-send "Screenshot saved" "$FILENAME" -i "$FILENAME"
+    notify-send -t 3000 "Screenshot saved" "$FILENAME"
 fi

@@ -7,7 +7,12 @@ return {
       vim.lsp.config('pyright', {
         cmd = { vim.fn.expand('$HOME/.local/share/uv/tools/pyright/bin/pyright-langserver'), '--stdio' },
         filetypes = { 'python' },
-        root_markers = { '.git', 'pyproject.toml', 'requirements.txt' },
+        root_markers = { '.git', 'pyproject.toml', 'requirements.txt', '.venv' },
+        settings = {
+          python = {
+            pythonPath = '.venv/bin/python',
+          },
+        },
       })
 
       vim.api.nvim_create_autocmd('FileType', {
@@ -39,7 +44,17 @@ return {
     'ibhagwan/fzf-lua',
     lazy = false,
     config = function()
-      require('fzf-lua').setup { fzf_colors = true }
+      require('fzf-lua').setup({
+        fzf_colors = true,
+        keymap = {
+          fzf = {
+            ['ctrl-j'] = 'down',
+            ['ctrl-k'] = 'up',
+            ['down'] = 'down',
+            ['up'] = 'up',
+          },
+        },
+      })
     end,
   },
   {
@@ -240,6 +255,7 @@ return {
         local lint = require('lint')
         lint.linters_by_ft = {
             sh = { 'shellcheck' },
+            python = { 'ruff' },
         }
         vim.api.nvim_create_autocmd({ 'BufWritePost', 'BufReadPost' }, {
             callback = function()
@@ -261,6 +277,88 @@ return {
         vim.keymap.set('n', '<leader>cf', function()
             require('conform').format({ async = true })
         end, { desc = 'Format code' })
+    end,
+  },
+  {
+    'mfussenegger/nvim-dap',
+    lazy = false,
+    dependencies = {
+      'mfussenegger/nvim-dap-python',
+      {
+        'rcarriga/nvim-dap-ui',
+        dependencies = { 'nvim-neotest/nvim-nio' },
+      },
+      'theHamsta/nvim-dap-virtual-text',
+    },
+    config = function()
+      local dap = require('dap')
+      local dapui = require('dapui')
+
+      require('dap-python').setup(vim.fn.expand('~/.local/bin/debugpy-adapter'))
+
+      dap.adapters.gdb = {
+        type = 'executable',
+        command = 'gdb',
+        args = { '--interpreter=dap', '--quiet' },
+      }
+      dap.configurations.c = {
+        {
+          name = 'Launch',
+          type = 'gdb',
+          request = 'launch',
+          program = function()
+            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+          end,
+          cwd = '${workspaceFolder}',
+          stopAtBeginningOfMain = true,
+        },
+      }
+      dap.configurations.cpp = dap.configurations.c
+
+      dapui.setup({
+        layouts = {
+          {
+            elements = {
+              { id = 'scopes',      size = 0.25 },
+              { id = 'breakpoints', size = 0.25 },
+              { id = 'stacks',      size = 0.25 },
+              { id = 'watches',     size = 0.25 },
+            },
+            position = 'right',
+            size = 40,
+          },
+          {
+            elements = {
+              { id = 'console', size = 1 },
+            },
+            position = 'bottom',
+            size = 10,
+          },
+        },
+      })
+      vim.api.nvim_set_hl(0, 'DapUINormal', { bg = '#181825' })
+      vim.api.nvim_set_hl(0, 'DapUIEndOfBuffer', { bg = '#181825' })
+
+      require('nvim-dap-virtual-text').setup({ commented = true })
+
+      dap.listeners.after.event_initialized['dapui_config'] = function()
+        dapui.open()
+      end
+      -- dap.listeners.before.event_terminated['dapui_config'] = function()
+      --   dapui.close()
+      -- end
+      -- dap.listeners.before.event_exited['dapui_config'] = function()
+      --   dapui.close()
+      -- end
+    end,
+  },
+  {
+    'rmagatti/auto-session',
+    lazy = false,
+    config = function()
+      require('auto-session').setup({
+        log_level = 'error',
+      })
     end,
   },
 }
