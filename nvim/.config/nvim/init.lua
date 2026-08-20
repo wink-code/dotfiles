@@ -60,9 +60,15 @@ vim.keymap.set({ 'n' }, '<A-l>', '<C-w>l')
 
 
 vim.o.splitright = true
+vim.opt.laststatus = 3    -- global statusline (required by edgy.nvim)
+vim.opt.splitkeep = 'screen' -- prevent main splits from jumping when edgebar opens
 -- AUTOCOMMANDS (EVENT HANDLERS)
 -- See `:h lua-guide-autocommands`, `:h autocmd`, `:h nvim_create_autocmd()`
 
+
+-- Customize the highlighting color and lightness
+
+vim.api.nvim_set_hl(0, "Comment", { fg = '#6c6c6c', italic = true })
 
 -- Highlight when yanking (copying) text.
 -- Try it with `yap` in normal mode. See `:h vim.hl.on_yank()`
@@ -154,6 +160,12 @@ vim.api.nvim_create_autocmd("VimEnter", {
     vim.keymap.set('n', '<leader>wv', '<C-w>v', { desc = 'Split vertical' })
     vim.keymap.set('n', '<leader>ws', '<C-w>s', { desc = 'Split horizontal' })
     vim.keymap.set('n', '<leader>wc', '<C-w>c', { desc = 'Close window' })
+    vim.keymap.set('n', '<leader>wo', '<C-w>o', { desc = 'Close other windows' })
+
+    -- window rearrange
+    vim.keymap.set('n', '<leader>wr', '<C-w>r', { desc = 'Rotate windows down/right' })
+    vim.keymap.set('n', '<leader>wR', '<C-w>R', { desc = 'Rotate windows up/left' })
+    vim.keymap.set('n', '<leader>wx', '<C-w>x', { desc = 'Swap with next window' })
 
     -- nvim-dap debugging
     vim.keymap.set('n', '<leader>db', function() require('dap').toggle_breakpoint() end, { desc = 'Toggle breakpoint' })

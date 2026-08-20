@@ -138,7 +138,6 @@ return {
     config = function()
       require('nvim-tree').setup({
         view = {
-          width = 30,
           side = 'left',
         },
         renderer = {
@@ -152,8 +151,7 @@ return {
           ignore = true,
         },
       })
-      vim.api.nvim_set_hl(0, 'NvimTreeNormal', { bg = 'none' })
-      vim.api.nvim_set_hl(0, 'NvimTreeEndOfBuffer', { bg = 'none' })
+        
     end,
   },
 
@@ -165,10 +163,37 @@ return {
     config = function()
         require('catppuccin').setup({
             flavour = 'mocha',
-            transparent_background = true,
+            transparent_background = false,
             term_colors = true
         })
         vim.cmd.colorscheme('catppuccin')
+    end,
+  },
+  {
+    'folke/edgy.nvim',
+    event = 'VeryLazy',
+    opts = {
+      right = {
+        { ft = 'dapui_scopes',      title = 'Scopes' },
+        { ft = 'dapui_breakpoints', title = 'Breakpoints' },
+        { ft = 'dapui_stacks',      title = 'Stacks' },
+        { ft = 'dapui_watches',     title = 'Watches' },
+      },
+      bottom = {
+        { ft = 'dapui_console', title = 'Console' },
+      },
+      left = {
+        { ft = 'NvimTree', title = 'Files' },
+      },
+      options = {
+        left   = { size = 30 },
+        right  = { size = 40 },
+        bottom = { size = 10 },
+      },
+    },
+    config = function(_, opts)
+      require('edgy').setup(opts)
+      
     end,
   },
   {
@@ -336,20 +361,19 @@ return {
           },
         },
       })
-      vim.api.nvim_set_hl(0, 'DapUINormal', { bg = '#181825' })
-      vim.api.nvim_set_hl(0, 'DapUIEndOfBuffer', { bg = '#181825' })
+      
 
       require('nvim-dap-virtual-text').setup({ commented = true })
 
       dap.listeners.after.event_initialized['dapui_config'] = function()
         dapui.open()
       end
-      -- dap.listeners.before.event_terminated['dapui_config'] = function()
-      --   dapui.close()
-      -- end
-      -- dap.listeners.before.event_exited['dapui_config'] = function()
-      --   dapui.close()
-      -- end
+      dap.listeners.after.event_terminated['dapui_config'] = function()
+        dapui.close()
+      end
+      dap.listeners.after.event_exited['dapui_config'] = function()
+        dapui.close()
+      end
     end,
   },
   {

@@ -26,6 +26,7 @@ setopt HIST_REDUCE_BLANKS
 # --------------------------------------------------
 
 autoload -Uz compinit && compinit
+zmodload zsh/complist
 
 zstyle ':completion:*' menu select
 
@@ -96,6 +97,12 @@ setopt EXTENDED_GLOB
 LANG=en_US.UTF-8
 export LANG
 
+function dict(){
+    sdcv -n --utf8-output --color "$@" 2>&1 | \
+        fold | \
+        less --quit-if-one-screen -RX
+}
+
 
 # ---------------------------------------------
 # key-bind
@@ -107,12 +114,16 @@ bindkey '^[[1;5C' forward-word
 # Ctrl + Backspace: delete previous word group
 bindkey '^[[W' backward-kill-word
 
-# Tab: next match, Shift+Tab: previous match
-zmodload zsh/complist
-autoload -Uz compinit
-compinit
-zstyle ':completion:*' menu select
-bindkey '^I' menu-select
+# Shift+Tab: previous match
 bindkey '^[[Z' reverse-menu-complete
 
 export TERMINAL=kitty
+
+# bun completions
+[ -s "/home/johnwink/.bun/_bun" ] && source "/home/johnwink/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+eval "$(direnv hook zsh)"
