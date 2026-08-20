@@ -57,7 +57,8 @@ vim.keymap.set({ 'n' }, '<A-j>', '<C-w>j')
 vim.keymap.set({ 'n' }, '<A-k>', '<C-w>k')
 vim.keymap.set({ 'n' }, '<A-l>', '<C-w>l')
 
-
+-- 在 Lua 配置中 (init.lua)
+vim.keymap.set('n', '<Esc><Esc>', '<cmd>nohlsearch<CR>')
 
 vim.o.splitright = true
 vim.opt.laststatus = 3    -- global statusline (required by edgy.nvim)
