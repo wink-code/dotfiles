@@ -1,9 +1,6 @@
 # Hyprland internal git repo (excluded from tracking)
 hyprland/.config/hypr/.git/
 
-# Duplicated nested waybar config
-hyprland/.config/waybar/waybar/
-
 # Backup files
 *~
 *.bak
