@@ -1,3 +1,30 @@
 {
-  "$schema": "https://opencode.ai/config.json"
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": ["oh-my-openagent@latest"],
+  "provider": {
+    "deepseek": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "DeepSeek",
+      "options": {
+        "baseURL": "https://api.deepseek.com/v1"
+      },
+      "models": {
+        "deepseek-v4-pro": { "name": "DeepSeek V4 Pro" },
+        "deepseek-v4-flash": { "name": "DeepSeek V4 Flash" }
+      }
+    },
+      "moonshot": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Kimi (Moonshot)",
+      "options": {
+        "baseURL": "https://api.moonshot.ai/v1",
+        "apiKey": "sk-Qd7i1AI391XOEXQ51Ctj9ablDAZBe35K33ciT9jkL5sZkn9K"
+      },
+      "models": {
+        "kimi-k2-0711-preview": {
+          "name": "kimi-k2-0711-preview"
+        }
+      }
+    }
+  }
 }

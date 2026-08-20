@@ -385,4 +385,35 @@ return {
       })
     end,
   },
-}
+  -- 新增：render-markdown 插件
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' }, -- 必须依赖 Treesitter
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {
+      -- 默认配置即可满足多数需求，也可按需调整
+      -- 例如：启用代码块高亮、表格对齐等
+      render_modes = true,          -- 在普通/可视模式下渲染
+      heading = {
+        enabled = true,
+        sign = true,               -- 在行号旁显示图标
+        position = 'inline',       -- 'inline' 或 'overlay'
+        -- 自定义标题图标等
+      },
+      code = {
+        enabled = true,
+        sign = true,
+        width = 'block',
+        min_width = 70,
+      },
+      dash = {
+        enabled = true,
+        width = 50,
+      },
+      -- 更多选项可查阅文档
+    },
+    -- 以下方式可确保仅对 Markdown 文件启用（可选）
+    ft = { 'markdown' },           -- 文件类型触发加载
+    -- 如果想在打开所有文件时都可用，可以去掉 ft，并添加 config 函数手动 enable
+  },}
