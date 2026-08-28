@@ -63,7 +63,7 @@ for c in clients:
         i += 1
 \")
     if [ -n \"\$ADDR\" ]; then
-        hyprctl dispatch focuswindow address:\$ADDR
+        hyprctl dispatch \"hl.dsp.focus({ window = 'address:\$ADDR' })\"
     fi
 fi
 "
