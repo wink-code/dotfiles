@@ -59,7 +59,7 @@ zstyle ':vcs_info:git:*' unstagedstr '%F{red}%f'
 zstyle ':vcs_info:git:*' formats '%F{green}(%b)%f %c%u'
 zstyle ':vcs_info:git:*' actionformats '%F{green}(%b|%a)%f %c%u'
 
-PROMPT=$'%F{cyan}%n@%m%f %F{blue}%1~%f ${vcs_info_msg_0_}\n%F{green}>%f '
+PROMPT=$'%F{cyan}%n@%m%f %F{blue}%1~%f ${vcs_info_msg_0_}\n%F{green}$%f '
 RPROMPT='%F{240}%*%f'
 setopt PROMPT_SUBST
 

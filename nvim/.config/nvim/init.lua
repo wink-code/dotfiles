@@ -66,6 +66,9 @@ vim.opt.splitkeep = 'screen' -- prevent main splits from jumping when edgebar op
 -- AUTOCOMMANDS (EVENT HANDLERS)
 -- See `:h lua-guide-autocommands`, `:h autocmd`, `:h nvim_create_autocmd()`
 
+-- cursor light
+vim.opt.guicursor = "a:blinkwait700-blinkon400-blinkoff250"
+
 
 -- Customize the highlighting color and lightness
 
