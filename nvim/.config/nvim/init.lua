@@ -58,7 +58,10 @@ vim.keymap.set({ 'n' }, '<A-k>', '<C-w>k')
 vim.keymap.set({ 'n' }, '<A-l>', '<C-w>l')
 
 -- 在 Lua 配置中 (init.lua)
-vim.keymap.set('n', '<Esc><Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<Esc><Esc>', function()
+    vim.cmd('nohlsearch')
+    vim.api.nvim_echo({}, false, {})
+end)
 
 vim.o.splitright = true
 vim.opt.laststatus = 3    -- global statusline (required by edgy.nvim)
@@ -112,7 +115,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup('plugins', {
   -- You can add lazy.nvim options here if needed
   -- For example:
-  -- defaults = { lazy = true },
+   defaults = { lazy = true },
   -- install = { colorscheme = { 'habamax' } },
   -- checker = { enabled = true }, -- automatically check for plugin updates
   -- performance = {

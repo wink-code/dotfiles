@@ -14,7 +14,20 @@ return {
           },
         },
       })
+    -- 在 pyright 配置块之后添加
+    vim.lsp.config('clangd', {
+      cmd = { 'clangd' },   -- 直接使用系统 PATH 中的 clangd（你在本机已安装）
+      filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
+      root_markers = { '.git', 'compile_commands.json', 'compile_flags.txt' },
+    })
 
+    -- 启用 clangd（当打开 .c/.cpp 文件时自动 attach）
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = { 'c', 'cpp' },
+      callback = function()
+        vim.lsp.enable('clangd')
+      end,
+    })
       vim.api.nvim_create_autocmd('FileType', {
         pattern = 'python',
         callback = function()
@@ -416,4 +429,26 @@ return {
     -- 以下方式可确保仅对 Markdown 文件启用（可选）
     ft = { 'markdown' },           -- 文件类型触发加载
     -- 如果想在打开所有文件时都可用，可以去掉 ft，并添加 config 函数手动 enable
-  },}
+  },
+    {
+      "williamboman/mason.nvim",
+      cmd = "Mason",
+      build = ":MasonUpdate", -- 可选，更新注册表
+      config = function()
+        require("mason").setup()
+      end,
+    },
+    {
+      "williamboman/mason-lspconfig.nvim",
+      dependencies = {
+        "williamboman/mason.nvim",
+        "neovim/nvim-lspconfig", -- 如果你用 lspconfig，推荐保留
+      },
+      config = function()
+        require("mason-lspconfig").setup({
+          ensure_installed = { "clangd", "pyright" }, -- 自动安装
+          automatic_installation = true,
+        })
+      end,
+    },
+  }

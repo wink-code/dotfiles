@@ -127,3 +127,5 @@ export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
 eval "$(direnv hook zsh)"
+
+bindkey -v
