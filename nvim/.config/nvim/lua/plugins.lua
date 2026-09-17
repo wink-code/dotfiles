@@ -7,10 +7,9 @@ return {
       vim.lsp.config('pyright', {
         cmd = { vim.fn.expand('$HOME/.local/share/uv/tools/pyright/bin/pyright-langserver'), '--stdio' },
         filetypes = { 'python' },
-        root_markers = { '.git', 'pyproject.toml', 'requirements.txt', '.venv' },
+        root_markers = { '.git', 'pyproject.toml' },
         settings = {
           python = {
-            pythonPath = '.venv/bin/python',
           },
         },
       })
