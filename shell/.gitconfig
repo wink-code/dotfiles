@@ -16,3 +16,5 @@
 	required = true
 [alias]
 	tree = log --graph --decorate --all --oneline
+[commit]
+	template = /home/johnwink/.gitmessage
