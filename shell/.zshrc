@@ -103,6 +103,10 @@ function dict(){
         less --quit-if-one-screen -RX
 }
 
+function mkcd(){
+    mkdir -p "$1" && cd "$1"
+}
+
 
 # ---------------------------------------------
 # key-bind
@@ -129,3 +133,4 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 eval "$(direnv hook zsh)"
 
 bindkey -v
+
