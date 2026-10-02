@@ -31,6 +31,9 @@ hl.bind(mainMod .. " + b",         hl.dsp.exec_cmd(vars.browser))
 hl.bind(mainMod .. " + SHIFT + w", hl.dsp.exec_cmd("~/scripts/wallpaper-cycle.sh"))
 hl.bind(mainMod .. " + U",         hl.dsp.exec_cmd("killall -SIGUSR1 waybar"))
 
+-- Power profile cycle (performance -> balanced -> power-saver)
+hl.bind(mainMod .. " + SHIFT + p", hl.dsp.exec_cmd("~/scripts/power.sh cycle"))
+
 -- Window cycling
 hl.bind(mainMod .. " + Tab",         hl.dsp.window.cycle_next())
 hl.bind(mainMod .. " + SHIFT + Tab", hl.dsp.window.cycle_next({ next = false }))
