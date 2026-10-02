@@ -20,3 +20,6 @@ opencode/.config/opencode/bun.lock
 # OS junk
 .DS_Store
 Thumbs.db
+
+# btop config
+tools/.config/btop/btop.conf
