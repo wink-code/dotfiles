@@ -4,6 +4,7 @@ hyprland/.config/hypr/.git/
 # Backup files
 *~
 *.bak
+*.bak.*
 *.backup
 *.swp
 *.swo
