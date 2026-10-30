@@ -25,13 +25,33 @@ setopt HIST_REDUCE_BLANKS
 # auto completion
 # --------------------------------------------------
 
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+
+# 自己的补全函数目录（如 _hyprctl），必须在 compinit 之前加进 fpath
+fpath=("${ZDOTDIR:-$HOME}/.config/zsh/functions" $fpath)
+
+# compinit 的缓存只比对「补全函数数量」和 zsh 版本。
+# 软件包更新时如果删掉一个补全文件、又新增一个（数量不变），旧缓存就会被一直沿用，
+# 于是报 "_hyprctl: function definition file not found" 这种错。
+# 所以这里补一刀：任一 fpath 目录比缓存新，就删掉缓存让 compinit 重建。
+_ZCOMPDUMP="${ZDOTDIR:-$HOME}/.zcompdump"
+for _zd in $fpath; do
+    if [[ ! -f $_ZCOMPDUMP || $_zd -nt $_ZCOMPDUMP ]]; then
+        rm -f -- "$_ZCOMPDUMP" "$_ZCOMPDUMP.zwc"
+        break
+    fi
+done
+unset _zd _ZCOMPDUMP
+
+compinit
 zmodload zsh/complist
 
 zstyle ':completion:*' menu select
 
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
+# LS_COLORS 为空时 list-colors 也会被设成空，补全列表就没颜色了
+[[ -z $LS_COLORS ]] && eval "$(dircolors -b)"
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 zstyle ':completion:*' completer _complete _match _approximate

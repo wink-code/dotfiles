@@ -1,0 +1,77 @@
+#compdef hyprctl
+# hyprctl 补全：hyprland >= 0.57 不再自带 _hyprctl，这里补一份基础版
+
+_hyprctl() {
+    local -a commands
+    commands=(
+        'activewindow:Gets the active window name and its properties'
+        'activeworkspace:Gets the active workspace and its properties'
+        'animations:Gets info about animations and beziers'
+        'binds:Lists all registered binds'
+        'clients:Lists all windows with their properties'
+        'configerrors:Lists all current config parsing errors'
+        'cursorpos:Gets the current cursor position'
+        'decorations:Lists all decorations'
+        'devices:Lists all connected keyboards and mice'
+        'dismissnotify:Dismisses notifications'
+        'dispatch:Issue a dispatcher'
+        'eval:Issue a Lua string to execute'
+        'getoption:Gets the config option status'
+        'getprop:Gets a window property'
+        'globalshortcuts:Lists all global shortcuts'
+        'hyprpaper:Issue a hyprpaper request'
+        'hyprsunset:Issue a hyprsunset request'
+        'instances:Lists all running instances'
+        'keyword:Issue a config keyword dynamically'
+        'kill:Kill mode (click a window to kill it)'
+        'layers:Lists all surface layers'
+        'layouts:Lists all available layouts'
+        'monitors:Lists active outputs'
+        'notify:Sends a notification'
+        'output:Add/remove fake outputs'
+        'plugin:Issue a plugin request'
+        'reload:Force a config reload'
+        'repl:Interactive Lua REPL'
+        'rollinglog:Print tail of the log'
+        'setcursor:Sets the cursor theme and size'
+        'seterror:Sets the hyprctl error string'
+        'setprop:Sets a window property'
+        'splash:Get the current splash'
+        'status:Get internal status information'
+        'switchxkblayout:Sets the xkb layout index for a keyboard'
+        'systeminfo:Get system info'
+        'version:Prints the hyprland version'
+        'workspacerules:Lists all workspace rules'
+        'workspaces:Lists all workspaces with their properties'
+    )
+
+    _arguments -s \
+        '-j[Output in JSON]' \
+        '-r[Refresh state after issuing command]' \
+        '-q[Disable the output]' \
+        '--batch[Execute a batch of commands separated by ;]' \
+        '(-i --instance)'{-i,--instance=}'[Use a specific instance]:instance:' \
+        '--quiet[Disable the output]' \
+        '--help[Print command arguments]' \
+        '1:command:->command' \
+        '*::argument:->argument'
+
+    case $state in
+        command)
+            _describe -t commands 'hyprctl command' commands
+            ;;
+        argument)
+            case $words[1] in
+                (reload)     _values 'mode' 'config-only[disable monitor reload]' ;;
+                (rollinglog) _arguments '-f[follow]' '--follow[follow]' ;;
+                (monitors)   _values 'scope' 'all[list active and inactive outputs]' ;;
+                (dispatch)   _message 'dispatcher [args]' ;;
+                (keyword|getoption|setprop|getprop|setcursor|seterror|switchxkblayout|output|plugin|notify|hyprpaper|hyprsunset|eval)
+                             _message 'argument' ;;
+                (*)          return 1 ;;
+            esac
+            ;;
+    esac
+}
+
+_hyprctl "$@"
