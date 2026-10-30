@@ -42,10 +42,10 @@ hl.config({
         -- Lower damping = more ringing, higher intensity = bigger deformation.
         wobble = {
             enabled   = true,
-            intensity = 0.4,   -- default 0.2
-            stiffness = 160,   -- default 200 (lower = slower, gooier)
+            intensity = 0.25,  -- default 0.2
+            stiffness = 180,   -- default 200
             mass      = 1.0,   -- default 1.0
-            damping   = 7,     -- default 12 (lower = more oscillation)
+            damping   = 16,    -- default 12 (higher = settles faster)
             mesh      = 12,    -- vertices per edge; raise for smoother, costlier
         },
     },
