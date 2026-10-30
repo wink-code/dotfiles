@@ -105,6 +105,12 @@ hl.bind(mainMod .. " + SHIFT + M", hl.dsp.exec_cmd("~/.local/bin/move-to-magic")
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
 
+-- Keyboard equivalents for the scroll (same selectors as the wheel)
+hl.bind(mainMod .. " + Page_Down", hl.dsp.focus({ workspace = "e+1" }))
+hl.bind(mainMod .. " + Page_Up",   hl.dsp.focus({ workspace = "e-1" }))
+hl.bind(mainMod .. " + Home",      hl.dsp.focus({ workspace = 1 }))
+hl.bind(mainMod .. " + End",       hl.dsp.focus({ workspace = 10 }))
+
 -- Mouse resize (bindm)
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
