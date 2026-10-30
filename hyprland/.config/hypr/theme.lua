@@ -38,6 +38,16 @@ hl.config({
             new_optimizations = true,
             vibrancy          = 0.1696,
         },
+        -- Hyprland 0.57 window wobble (spring: stiffness/mass/damping).
+        -- Lower damping = more ringing, higher intensity = bigger deformation.
+        wobble = {
+            enabled   = true,
+            intensity = 0.4,   -- default 0.2
+            stiffness = 160,   -- default 200 (lower = slower, gooier)
+            mass      = 1.0,   -- default 1.0
+            damping   = 7,     -- default 12 (lower = more oscillation)
+            mesh      = 12,    -- vertices per edge; raise for smoother, costlier
+        },
     },
 
     animations = {
