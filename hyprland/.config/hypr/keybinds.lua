@@ -5,6 +5,21 @@
 local vars = require("vars")
 local mainMod = vars.mainMod
 
+-- Floating windows: raise the newly focused window to the top.
+-- Tiled windows are left alone on purpose: raising them reorders the stack,
+-- which messes up column order in the scrolling layout (see commit d4b8443).
+local function raise_if_floating()
+    local w = hl.get_active_window()
+    if w and w.floating then
+        hl.dispatch(hl.dsp.window.bring_to_top())
+    end
+end
+
+local function focus_raise(direction)
+    hl.dispatch(hl.dsp.focus({ direction = direction }))
+    raise_if_floating()
+end
+
 hl.bind(mainMod .. " + T", hl.dsp.exec_cmd(vars.terminal))
 hl.bind(mainMod .. " + C", hl.dsp.window.close())
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(vars.fileManager))
@@ -35,14 +50,20 @@ hl.bind(mainMod .. " + U",         hl.dsp.exec_cmd("killall -SIGUSR1 waybar"))
 hl.bind(mainMod .. " + SHIFT + p", hl.dsp.exec_cmd("~/scripts/power.sh cycle"))
 
 -- Window cycling
-hl.bind(mainMod .. " + Tab",         hl.dsp.window.cycle_next())
-hl.bind(mainMod .. " + SHIFT + Tab", hl.dsp.window.cycle_next({ next = false }))
+hl.bind(mainMod .. " + Tab", function()
+    hl.dispatch(hl.dsp.window.cycle_next())
+    raise_if_floating()
+end)
+hl.bind(mainMod .. " + SHIFT + Tab", function()
+    hl.dispatch(hl.dsp.window.cycle_next({ next = false }))
+    raise_if_floating()
+end)
 
 -- Vim-style focus
-hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
-hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "up" }))
-hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "down" }))
+hl.bind(mainMod .. " + h", function() focus_raise("left") end)
+hl.bind(mainMod .. " + l", function() focus_raise("right") end)
+hl.bind(mainMod .. " + k", function() focus_raise("up") end)
+hl.bind(mainMod .. " + j", function() focus_raise("down") end)
 
 -- Vim-style resize (SUPER+CTRL, repeating)
 hl.bind(mainMod .. " + CTRL + h", hl.dsp.window.resize({ x = -40, y = 0, relative = true }), { repeating = true })
@@ -63,10 +84,10 @@ hl.bind(mainMod .. " + SHIFT + k", hl.dsp.window.swap({ direction = "up" }))
 hl.bind(mainMod .. " + SHIFT + j", hl.dsp.window.swap({ direction = "down" }))
 
 -- Arrow-key focus
-hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
-hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
+hl.bind(mainMod .. " + left",  function() focus_raise("left") end)
+hl.bind(mainMod .. " + right", function() focus_raise("right") end)
+hl.bind(mainMod .. " + up",    function() focus_raise("up") end)
+hl.bind(mainMod .. " + down",  function() focus_raise("down") end)
 
 -- Workspace switching (1-10, 10 -> key 0)
 for i = 1, 10 do
