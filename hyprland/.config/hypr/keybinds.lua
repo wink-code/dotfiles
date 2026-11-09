@@ -44,7 +44,7 @@ hl.bind(mainMod .. " + SHIFT + x", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + X",         hl.dsp.exec_cmd("~/.local/bin/wlogout-toggle"))
 hl.bind(mainMod .. " + b",         hl.dsp.exec_cmd(vars.browser))
 hl.bind(mainMod .. " + SHIFT + w", hl.dsp.exec_cmd("~/scripts/wallpaper-cycle.sh"))
-hl.bind(mainMod .. " + U",         hl.dsp.exec_cmd("pkill -USR1 -x waybar || waybar"))
+hl.bind(mainMod .. " + U",         hl.dsp.exec_cmd("~/scripts/waybar.sh reload"))
 
 -- Power profile cycle (performance -> balanced -> power-saver)
 hl.bind(mainMod .. " + SHIFT + p", hl.dsp.exec_cmd("~/scripts/power.sh cycle"))

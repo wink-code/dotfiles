@@ -18,9 +18,9 @@ end
 
 -- Waybar crashes / drops the extra bar if it sees outputs appear/disappear,
 -- so restart it around the change instead of letting it handle the hotplug.
+-- The script is serialized so rapid toggles cannot leave two waybars running.
 local function restart_waybar()
-    hl.exec_cmd("pkill -x waybar")
-    hl.timer(function() hl.exec_cmd("waybar") end, { timeout = 400, type = "oneshot" })
+    hl.exec_cmd("~/scripts/waybar.sh")
 end
 
 function M.toggle_display()

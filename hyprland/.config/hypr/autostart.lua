@@ -19,7 +19,7 @@ hl.env("LOCK_CMD", "hyprlock")
 
 hl.on("hyprland.start", function()
     hl.exec_cmd(vars.terminal)
-    hl.exec_cmd("waybar")
+    hl.exec_cmd("~/scripts/waybar.sh")
     hl.exec_cmd("hyprpaper")
     hl.exec_cmd("~/scripts/wallpaper-restore.sh")
     hl.exec_cmd("hypridle")
