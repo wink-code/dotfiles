@@ -11,9 +11,10 @@ if [ "${#WALLPAPERS[@]}" -eq 0 ]; then
 fi
 
 INDEX=$(( ($(wallpaper_read_index) + 1) % ${#WALLPAPERS[@]} ))
-wallpaper_write_index "$INDEX"
 
-wallpaper_apply "${WALLPAPERS[$INDEX]}"
-
-FILENAME=$(basename "${WALLPAPERS[$INDEX]}")
-#notify-send "Wallpaper changed" "$FILENAME" -i "$WALLPAPER_DIR/$FILENAME" 2>/dev/null || true
+# Only remember the new position once hyprpaper actually shows it.
+if wallpaper_apply "${WALLPAPERS[$INDEX]}"; then
+    wallpaper_write_index "$INDEX"
+else
+    exit 1
+fi

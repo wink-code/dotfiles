@@ -17,7 +17,7 @@ wallpaper_list() {
         \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) | sort
 }
 
-# Current index, 0 when unset/garbage.
+# Last applied pool index, 0 when unset/garbage.
 wallpaper_read_index() {
     local n
     n=$(cat -- "$WALLPAPER_STATE" 2>/dev/null)
@@ -25,11 +25,40 @@ wallpaper_read_index() {
     printf '%s' "$n"
 }
 
+# Atomic write: a half-written state file would lose the position.
 wallpaper_write_index() {
-    mkdir -p -- "${WALLPAPER_STATE%/*}"
-    printf '%s\n' "$1" >"$WALLPAPER_STATE"
+    local dir=${WALLPAPER_STATE%/*}
+    [ "$dir" = "$WALLPAPER_STATE" ] || mkdir -p -- "$dir"
+    printf '%s\n' "$1" >"$WALLPAPER_STATE.tmp" &&
+        mv -f -- "$WALLPAPER_STATE.tmp" "$WALLPAPER_STATE"
 }
 
+# hyprpaper's IPC socket appears a moment after the process starts, so waiting
+# for pgrep is not enough. Returns non-zero if it never comes up.
+wallpaper_wait_ready() {
+    local i
+    for ((i = 0; i < ${1:-30}; i++)); do
+        hyprctl hyprpaper listactive >/dev/null 2>&1 && return 0
+        sleep 0.5
+    done
+    return 1
+}
+
+# Apply and verify. hyprpaper reports the resolved path, so compare real paths
+# rather than the symlink paths from the wallpaper dir.
 wallpaper_apply() {
-    hyprctl hyprpaper wallpaper "$WALLPAPER_MONITOR,$1"
+    local path=$1 want got i
+    want=$(realpath -e -- "$path" 2>/dev/null) || return 1
+    wallpaper_wait_ready || return 1
+    for i in 1 2 3; do
+        hyprctl hyprpaper wallpaper "$WALLPAPER_MONITOR,$path" >/dev/null 2>&1 || {
+            sleep 0.2
+            continue
+        }
+        got=$(hyprctl hyprpaper listactive 2>/dev/null |
+            awk -v m="$WALLPAPER_MONITOR:" '$1 == m { sub(/^[^:]*: /, ""); print; exit }')
+        [ -n "$got" ] && [ "$(realpath -e -- "$got" 2>/dev/null)" = "$want" ] && return 0
+        sleep 0.2
+    done
+    return 1
 }
