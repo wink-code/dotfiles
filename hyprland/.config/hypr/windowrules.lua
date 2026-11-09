@@ -116,3 +116,10 @@ hl.window_rule({
     center = true,
     size   = "75% 70%", -- percentages must be string form (numbers use { 600, 500 })
 })
+
+-- Frosted notification popups (SwayNC) to match the Hyprland blur setting.
+hl.layer_rule({
+    match        = { namespace = "swaync-notification-window" },
+    blur         = true,
+    ignore_alpha = 0.5,
+})
