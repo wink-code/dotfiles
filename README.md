@@ -8,7 +8,7 @@ Managed with **GNU Stow** — change your config, `git diff` sees it immediately
 
 | Stow package | Contents |
 |---|---|
-| `hyprland` | Hyprland WM, waybar, wofi, dunst, wlogout, uwsm |
+| `hyprland` | Hyprland WM, waybar, swaync, hyprlauncher, wlogout, uwsm |
 | `terminal` | kitty + alacritty |
 | `shell` | .zshrc, .bashrc, .profile, .zprofile, .gitconfig, motd |
 | `nvim` | Neovim (lazy.nvim + 12 plugins, catppuccin theme) |
@@ -37,8 +37,8 @@ git clone https://github.com/johnwink/dotfiles.git ~/dotfiles
 ```bash
 sudo pacman -S --needed \
   hyprland hyprpaper hypridle hyprlock hyprlauncher uwsm \
-  waybar wofi wlogout kitty alacritty \
-  dunst libnotify \
+  waybar wlogout kitty alacritty \
+  swaync libnotify \
   fcitx5 fcitx5-chinese-addons fcitx5-configtool \
   neovim git lazygit btop fastfetch \
   yazi thunar ffmpegthumbnailer poppler unrar p7zip fd ripgrep \
@@ -84,7 +84,7 @@ nvim +Lazy sync
 Configs are symlinked — edit in place, changes appear in the repo:
 
 ```bash
-vim ~/.config/hypr/hyprland.conf
+vim ~/.config/hypr/hyprland.lua
 cd ~/dotfiles
 git diff
 git commit -am "update hypr keybinds"
@@ -117,6 +117,9 @@ stow -R hyprland
 - **Neovim**: Plugins are managed by [lazy.nvim](https://github.com/folke/lazy.nvim). First launch auto-clones it. `lazy-lock.json` tracks exact plugin versions. See [nvim shortcuts](documents/nvim-shortcuts.md) for keybindings.
 - **Wallpapers**: Stored in `~/imgs/desktop/`. The `wallpaper-cycle.sh` / `wallpaper-restore.sh` scripts reference this path.
 - **Hyprland session**: `.profile` auto-starts Hyprland via `uwsm`. Remove the `exec uwsm` line if you use a display manager.
+- **Hyprland config**: `hyprland.lua` requires the modules in `~/.config/hypr/` in order; `machines/<hostname>.lua` holds machine-specific monitors and devices.
+- **Notifications**: SwayNC owns `org.freedesktop.Notifications`; the Waybar bell icon opens its control center. The `dunstrc` is kept but not started.
+- **Display modes**: `Super+Shift+D` toggles mirror/extend. Extend keeps workspaces 1-5 on `eDP-1` and 6-10 on `HDMI-A-1`, and restarts Waybar around the output change.
 - **Fcitx5**: Chinese input method. Set up with `fcitx5-configtool` after install.
 - **Git config**: `.gitconfig` contains personal email — update before use.
 - **NuPhy keyboard**: `nuphy-fix.py` is **not** included (hardware-specific). Copy it separately if needed from `~/.local/bin/`.

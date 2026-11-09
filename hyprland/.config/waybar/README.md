@@ -78,10 +78,11 @@ Edit `tokens/colors.css` to match your preference.
 
 ## Install
 
+Part of the `hyprland` stow package:
+
 ```bash
-git clone https://github.com/haikal-hakim/athena.git
-cd athena
-cp -r .config/waybar ~/.config/waybar
+cd ~/dotfiles
+stow hyprland
 ```
 ---
 
