@@ -100,7 +100,7 @@ hl.window_rule({
     },
     float     = true,
     pin       = true,
-    workspace = "special:magic",
+    -- workspace = "special:magic",
 })
 
 hl.window_rule({
